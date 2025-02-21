@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEDOO NET</title>
+    
+    <!-- ✅ تحميل مكتبة الخطوط والأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ✅ إعدادات عامة للصفحة */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at center, #0a0a0a, #111);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+        }
+
+        /* ✅ أنيميشن لاسم الموقع */
+        .logo {
+            font-size: 5vw;
+            font-weight: bold;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: fadeIn 1.5s ease-out forwards;
+            background: linear-gradient(45deg, #ff512f, #dd2476);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 20px;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ✅ تحسين تصميم الأزرار */
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            max-width: 90%;
+        }
+
+        .button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 280px;
+            padding: 15px 20px;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* ✅ تخصيص ألوان الأزرار */
+        .vodafone { background: linear-gradient(45deg, #e60000, #ff4d4d); }
+        .orange { background: linear-gradient(45deg, #ff8000, #ffa64d); }
+        .etisalat { background: linear-gradient(45deg, #008000, #66cc66); }
+        .we { background: linear-gradient(45deg, #6a0dad, #9b59b6); }
+        .ramadan { background: linear-gradient(45deg, #ffcc00, #ffdb4d); }
+        .free-services { background: linear-gradient(45deg, #0073e6, #66a3ff); }
+
+        /* ✅ تكبير حجم البروفايل وجعله يعرض صورة */
+        .profile {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ✅ تأثيرات ثلاثية الأبعاد للخلفية */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .circle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 5s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(30px); }
+        }
+
+        /* ✅ تحسين توافق الصفحة مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .button {
+                width: 90%;
+            }
+            .logo {
+                font-size: 8vw;
+            }
+            .profile {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 15px;
+            }
+            .profile {
+                margin-top: 10px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ✅ اسم الموقع بانميشن -->
+    <div class="logo">WEDOO NET</div>
+
+    <!-- ✅ الأزرار مع البروفايل -->
+    <div class="buttons">
+        <div class="button vodafone">
+            <span>فودافون</span>
+            <div class="profile"><img src="https://f.top4top.io/p_33396tker6.png" alt="Profile"></div>
+        </div>
+        <div class="button orange">
+            <span>اورانج</span>
+            <div class="profile"><img src="https://e.top4top.io/p_3339e78y75.png" alt="Profile"></div>
+        </div>
+        <div class="button etisalat">
+            <span>اتصالات</span>
+            <div class="profile"><img src="https://d.top4top.io/p_3339seflo4.png" alt="Profile"></div>
+        </div>
+        <div class="button we">
+            <span>وي</span>
+            <div class="profile"><img src="https://c.top4top.io/p_3339s1s0u3.png" alt="Profile"></div>
+        </div>
+        <div class="button ramadan">
+            <span>كروت رمضان</span>
+            <div class="profile"><img src="https://a.top4top.io/p_3339sk7dk1.jpeg" alt="Profile"></div>
+        </div>
+        <div class="button free-services">
+            <span>خدمات مجانية</span>
+            <div class="profile"><img src="https://b.top4top.io/p_3339gsqca2.jpg" alt="Profile"></div>
+        </div>
+    </div>
+
+    <!-- ✅ تأثيرات ثلاثية الأبعاد -->
+    <div class="scene">
+        <div class="circle" style="top: 10%; left: 20%;"></div>
+        <div class="circle" style="top: 30%; left: 60%;"></div>
+        <div class="circle" style="top: 50%; left: 80%;"></div>
+        <div class="circle" style="top: 70%; left: 40%;"></div>
+        <div class="circle" style="top: 90%; left: 10%;"></div>
+    </div>
+
+</body>
+</html>
