@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   
+  <!-- ✅ تحميل Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
   <style>
     /* ✅ إعدادات الصفحة - خلفية رمادية هادئة */
     body {
@@ -37,8 +41,8 @@
 
     /* ✅ حاوية الكروت */
     .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      display: flex;
+      flex-direction: column-reverse; /* ✅ جعل الأحدث يظهر في الأعلى */
       gap: 20px;
       width: 90%;
       max-width: 1000px;
@@ -82,7 +86,7 @@
     /* ✅ تحسين التناسق مع الشاشات الصغيرة */
     @media (max-width: 600px) {
       .cards-container {
-        grid-template-columns: 1fr;
+        flex-direction: column-reverse;
       }
       .card h2 {
         font-size: 20px;
@@ -99,38 +103,62 @@
   <div class="cards-container" id="cards-container"></div>
 
   <script>
-    // ✅ بيانات الكروت (مثال، يمكن جلبها من Firebase)
-    const cardsData = [
-      { number: "123456789012345", units: 100, addedTime: new Date().getTime() - (5 * 60 * 1000) },
-      { number: "987654321098765", units: 150, addedTime: new Date().getTime() - (20 * 60 * 1000) },
-      { number: "456789123456789", units: 200, addedTime: new Date().getTime() - (1 * 60 * 60 * 1000) }
-    ];
+    // ✅ تهيئة Firebase
+    const firebaseConfig = {
+            apiKey: "AIzaSyAdf5AKFgLXgK2PYERHw1hgF_HsMmuTfuo",
+            authDomain: "noproblem-55b97.firebaseapp.com",
+            projectId: "noproblem-55b97",
+            storageBucket: "noproblem-55b97.firebasestorage.app",
+            messagingSenderId: "316010224446",
+            appId: "1:316010224446:web:5d7e7f792e53ee4b396a6f",
+            measurementId: "G-VKSGWBRKVL"
+        };
 
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
     const container = document.getElementById("cards-container");
 
-    function updateCards() {
-      container.innerHTML = "";
-      cardsData.forEach(card => {
-        const elapsedMinutes = Math.floor((new Date().getTime() - card.addedTime) / 60000);
-        const cardElement = document.createElement("div");
-        cardElement.classList.add("card");
-        cardElement.innerHTML = `
-          <h2>كارت فودافون</h2>
-          <p>🔢 رقم الكارت: <b>${card.number}</b></p>
-          <p>⚡ الوحدات: <b>${card.units} وحدة</b></p>
-          <p class="time-elapsed">⏳ مضاف منذ: <b>${elapsedMinutes} دقيقة</b></p>
-        `;
-        // ✅ عند الضغط، يتم تحويل المستخدم لإجراء المكالمة مع كود شحن الكارت مع #
-        cardElement.onclick = () => {
-          window.location.href = `tel:*858*${card.number}%23`; // %23 تعني # في الروابط
-        };
-        container.appendChild(cardElement);
-      });
+    function timeSince(timestamp) {
+        const now = new Date().getTime();
+        const difference = Math.floor((now - timestamp) / 60000); // الفرق بالدقائق
+
+        if (difference < 1) {
+            return "حالا";
+        } else if (difference === 1) {
+            return "منذ دقيقة";
+        } else {
+            return `منذ ${difference} دقائق`;
+        }
     }
 
+    function updateCards() {
+        db.collection("cards").orderBy("addedTime", "desc").onSnapshot((snapshot) => {
+            let cardsArray = []; // مصفوفة لتخزين الكروت مؤقتًا
+
+            snapshot.forEach((doc) => {
+                const card = doc.data();
+                const cardElement = document.createElement("div");
+                cardElement.classList.add("card");
+                cardElement.innerHTML = `
+                    <h2>كارت فودافون</h2>
+                    <p>🔢 رقم الكارت: <b>${card.number}</b></p>
+                    <p>⚡ الوحدات: <b>${card.units} وحدة</b></p>
+                    <p class="time-elapsed">⏳ مضاف: <b>${timeSince(card.addedTime)}</b></p>
+                `;
+                cardElement.onclick = () => {
+                    window.location.href = `tel:*858*${card.number}%23`;
+                };
+
+                cardsArray.push(cardElement); // تخزين العنصر في المصفوفة
+            });
+
+            container.innerHTML = ""; // تفريغ القائمة
+            cardsArray.forEach(card => container.prepend(card)); // ✅ إضافة الكروت الأحدث في الأعلى
+        });
+    }
+
+    // ✅ تحديث الكروت عند تحميل الصفحة ومتابعة التحديثات لحظيًا
     updateCards();
-    // ✅ تحديث الكروت كل دقيقة
-    setInterval(updateCards, 60000);
   </script>
 
 </body>
